@@ -38,7 +38,15 @@ var addNote = (title, body) => {
   }
 };
 var getAll = () => {
-  console.log('Getting all notes');
+  let notes = fetchNotes();
+  if (notes.length === 0) {
+    console.log('No Notes Found');
+    return false;
+  }
+  console.log(notes.length + ' Notes found');
+  for (let i = 0; i < notes.length; i++) {
+    console.log('\t', notes[i].title);
+  }
 };
 
 var getNote = (title) => {
@@ -49,7 +57,7 @@ var getNote = (title) => {
   var filteredNotes = notes.filter((note) => note.title === title);
   if (filteredNotes[0]) {
     console.log('Note Found');
-    logNote(notes);
+    logNote(filteredNotes[0]);
   } else {
     console.log('Note not found');
   }
@@ -75,11 +83,11 @@ var logNote = (note) => {
 };
 
 var validateInput = function (title, body, validateBoth) {
-  if (title === undefined || /^\w*$/.test(title) === false) {
+  if (title === undefined) {
     console.log('Invalid title');
     return false;
   }
-  if (validateBoth === true && (body === undefined || /^\w+*$/.test(body))) {
+  if (validateBoth === true && body === undefined) {
     console.log('Invalid body');
     return false;
   }
